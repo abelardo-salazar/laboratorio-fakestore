@@ -24,10 +24,10 @@ const renderProductCards = (products) => {
 
     productsContainer.innerHTML += template;
     $app.appendChild(productsContainer);
-    console.log("first")
+    console.log("first");
 };
 
-const getProducts = () => {
+const getProducts = async () => {
     const limit = 10;
 
     // Set offset based on localstorage
@@ -37,7 +37,7 @@ const getProducts = () => {
     localStorage.setItem(localPaginationKey, offset);
 
     const url = `${API}?offset=${offset}&limit=${limit}`;
-    fetch(url)
+    await fetch(url)
         .then((response) => response.json())
         .then((response) => {
             let products = response;
@@ -46,13 +46,13 @@ const getProducts = () => {
         .catch((error) => console.log(error));
 };
 
-const loadData = () => {
-    getData(API);
+const loadData = async () => {
+    await getProducts(API);
 };
 
 const intersectionObserver = new IntersectionObserver(
     (entries) => {
-      if (entries[0].isIntersecting) getProducts();
+        if (entries[0].isIntersecting) getProducts();
     },
     {
         rootMargin: "0px 0px 100% 0px",
